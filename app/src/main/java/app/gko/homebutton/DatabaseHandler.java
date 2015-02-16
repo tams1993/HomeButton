@@ -77,6 +77,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ANSWER4, contact.getAnswer4()); // Contact Phone
         values.put(KEY_CORRECT_ANSWER, contact.getCorrectAnswer()); // Contact Phone
 
+        // test
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
         db.close(); // Closing database connection
