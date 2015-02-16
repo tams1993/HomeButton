@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HomeButton</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string-array name="question">
+
+
+        <item>{"q":"question","a1":"Question1_radio_button1","a2":"Question1_radio_button2","a3":"Question1_radio_button3","a1":"Question1_radio_button4",}</item>
+        <item>{"q":"question","a2":"Question2_radio_button1","a2":"Question2_radio_button2","a3":"Question2_radio_button3","a2":"Question1_radio_button4",}</item>
+        <item>{"q":"question","a3":"Question3_radio_button1","a2":"Question3_radio_button2","a3":"Question3_radio_button3","a3":"Question1_radio_button4",}</item>
+        <item>{"q":"question","a4":"Question4_radio_button1","a2":"Question4_radio_button2","a3":"Question4_radio_button3","a4":"Question1_radio_button4",}</item>
+
+
+
+    </string-array>
+
+
+</resources>
