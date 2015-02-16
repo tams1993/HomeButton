@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,22 +66,55 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * All CRUD(Create, Read, Update, Delete) Operations
      */
 
+
+//    public boolean CheckIsDataAlreadyInDBorNot() {
+//        SQLiteDatabase sqldb = this.getWritableDatabase();
+//        String Query = "Select * from " + TABLE_CONTACTS;
+//        Cursor cursor = sqldb.rawQuery(Query, null);
+//        if (cursor.getCount() <= 0) {
+//            Log.d("test", "row not exist");
+//
+//            return false;
+//        } else {
+//
+//            Log.d("test", "row exist");
+//            return true;
+//        }
+//
+//
+//
+//    }
+
     // Adding new contact
     void addContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_QUESTION, contact.getQuestion()); // Contact Name
-        values.put(KEY_ANSWER1, contact.getAnswer1()); // Contact Phone
-        values.put(KEY_ANSWER2, contact.getAnswer2()); // Contact Phone
-        values.put(KEY_ANSWER3, contact.getAnswer3()); // Contact Phone
-        values.put(KEY_ANSWER4, contact.getAnswer4()); // Contact Phone
-        values.put(KEY_CORRECT_ANSWER, contact.getCorrectAnswer()); // Contact Phone
+        String Query = "Select * from " + TABLE_CONTACTS;
+        Cursor cursor = db.rawQuery(Query, null);
 
-        // test
-        // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
-        db.close(); // Closing database connection
+
+        if (cursor.getCount() <= 0) {
+            Log.d("test", "row not exist");
+            deleteContact(contact);
+
+
+            ContentValues values = new ContentValues();
+            values.put(KEY_QUESTION, contact.getQuestion()); // Contact Name
+            values.put(KEY_ANSWER1, contact.getAnswer1()); // Contact Phone
+            values.put(KEY_ANSWER2, contact.getAnswer2()); // Contact Phone
+            values.put(KEY_ANSWER3, contact.getAnswer3()); // Contact Phone
+            values.put(KEY_ANSWER4, contact.getAnswer4()); // Contact Phone
+            values.put(KEY_CORRECT_ANSWER, contact.getCorrectAnswer()); // Contact Phone
+
+            // test
+            // Inserting Row
+            db.insert(TABLE_CONTACTS, null, values);
+            db.close(); // Closing database connection
+
+
+        }
+
+
     }
 
     // Getting single contact

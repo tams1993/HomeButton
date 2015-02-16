@@ -110,6 +110,9 @@ public class MainActivity extends ActionBarActivity {
         // Inserting Contacts
         Log.d("Insert: ", "Inserting ..");
 
+//        db.CheckIsDataAlreadyInDBorNot();
+
+
         db.addContact(new Contact("question1", "Answer1","Answer2","Answer3","Answer4","1"));
         db.addContact(new Contact("question2", "Answer1","Answer2","Answer3","Answer4","2"));
         db.addContact(new Contact("question3", "Answer1","Answer2","Answer3","Answer4","3"));
