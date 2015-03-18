@@ -26,14 +26,16 @@ public class MainActivity extends ActionBarActivity {
 
     private RadioGroup radioGroup;
     private RadioButton radioButton;
-    private Button button;
-    private TextView textView;
+    private Button button, btnBack, btnNext;
+    private TextView textView, textView2;
     private String jsonString ="{\"question_all\":{\"question\":[{\"q\":\"question1\",\"a1\":\"answer1\",\"a2\":\"answer2\",\"a3\":\"answer3\",\"a4\":\"answer4\"},{\"q\":\"question2\",\"a1\":\"answer1\",\"a2\":\"answer2\",\"a3\":\"answer3\",\"a4\":\"answer4\"},{\"q\":\"question3\",\"a1\":\"answer1\",\"a2\":\"answer2\",\"a3\":\"answer3\",\"a4\":\"answer4\"},{\"q\":\"question4\",\"a1\":\"answer1\",\"a2\":\"answer2\",\"a3\":\"answer3\",\"a4\":\"answer4\"}]}}";
+
+    private String[] quetion;
 
     private static final String TAG = "json";
 
 
-    int Counter = 0;
+    private int Counter = 0;
 
 
 //    @Override
@@ -108,12 +110,138 @@ public class MainActivity extends ActionBarActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
+        textView2 = (TextView) findViewById(R.id.textView2);
+
+
+        btnBack = (Button) findViewById(R.id.backButton);
+        btnNext = (Button) findViewById(R.id.nextButton);
+        button = (Button) findViewById(R.id.button);
+        textView = (TextView) findViewById(R.id.textView2);
+
+        final SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+        textView2.setText(String.valueOf(Counter));
 
 
 
-        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
 
+
+
+        ((RadioButton)radioGroup.getChildAt(3)).setChecked(true);
+
+       final int selectID = radioGroup.getCheckedRadioButtonId();
+        View radioButton = radioGroup.findViewById(selectID);
+       final int idx = radioGroup.indexOfChild(radioButton);
+
+        editor.putString("answer_" + Counter, String.valueOf(idx));
+        editor.commit();
+
+
+        for (Counter = 0; Counter <= 20; Counter++) {
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    try {
+
+
+
+
+
+
+
+                        editor.putString("answer_" + Counter, String.valueOf(Counter));
+                        editor.commit();
+
+
+
+
+//                    if (selectID == 2) {
+//
+//                        Counter++;
+//
+//
+//
+//                    }
+                        Toast.makeText(getApplicationContext(), sp.getString("answer_" + Counter, String.valueOf(-1)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), String.valueOf(Counter), Toast.LENGTH_SHORT).show();
+
+
+//                    textView.setText(String.valueOf(Counter));
+
+//                    textView.setText(radioButton.getText());
+//                    Toast.makeText(MainActivity.this, String.valueOf(Counter), Toast.LENGTH_SHORT).show();
+
+                    } catch (Exception e) {
+
+
+                    }
+
+
+
+                }
+            });
+
+
+        }
+
+
+
+
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Counter == 19) {
+
+                    Counter = 0;
+                    textView2.setText(String.valueOf(Counter));
+                    quetion[Counter] = String.valueOf(idx);
+
+                    editor.putString("answer " + Counter, String.valueOf(idx));
+                    editor.commit();
+
+                } else {
+                    Counter++;
+                    textView2.setText(String.valueOf(Counter));
+                    quetion[Counter] = String.valueOf(idx);
+                    editor.putString("answer " + Counter, String.valueOf(idx));
+                    editor.commit();
+
+                }
+
+
+
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Counter <= 0) {
+
+                    Counter = 19;
+                    textView2.setText(String.valueOf(Counter));
+                    quetion[Counter] = String.valueOf(idx);
+                    editor.putString("answer " + Counter, String.valueOf(idx));
+                    editor.commit();
+
+
+                } else {
+                    Counter--;
+                    textView2.setText(String.valueOf(Counter));
+                    quetion[Counter] = String.valueOf(idx);
+                    editor.putString("answer " + Counter, String.valueOf(idx));
+                    editor.commit();
+
+                }
+
+            }
+        });
 
 
 
@@ -148,8 +276,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        button = (Button) findViewById(R.id.button);
-        textView = (TextView) findViewById(R.id.textView2);
+
 
 
         final String[] radioText = getResources().getStringArray(R.array.question);
@@ -274,48 +401,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        ((RadioButton)radioGroup.getChildAt(0)).setChecked(true);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                try {
-
-                    int selectID = radioGroup.getCheckedRadioButtonId();
-                    View radioButton = radioGroup.findViewById(selectID);
-                    int idx = radioGroup.indexOfChild(radioButton);
-
-
-
-
-
-
-//                    if (selectID == 2) {
-//
-//                        Counter++;
-//
-//
-//
-//                    }
-                    Toast.makeText(getApplicationContext(),String.valueOf(idx),Toast.LENGTH_SHORT).show();
-
-
-//                    textView.setText(String.valueOf(Counter));
-
-//                    textView.setText(radioButton.getText());
-//                    Toast.makeText(MainActivity.this, String.valueOf(Counter), Toast.LENGTH_SHORT).show();
-
-                } catch (Exception e) {
-
-
-                }
-
-
-
-            }
-        });
 
 
 
