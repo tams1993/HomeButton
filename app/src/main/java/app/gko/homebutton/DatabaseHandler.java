@@ -94,8 +94,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         if (cursor.getCount() <= 0) {
-            Log.d("test", "row not exist");
-            deleteContact(contact);
+//            Log.d("test", "row not exist");
+//            deleteContact(contact);
 
 
             ContentValues values = new ContentValues();

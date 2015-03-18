@@ -1,5 +1,7 @@
 package app.gko.homebutton;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -103,6 +105,19 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         DatabaseHandler db = new DatabaseHandler(this);
+
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+
+
+
+
+        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+
+
+
+
 
         /**
          * CRUD Operations
@@ -259,6 +274,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+        ((RadioButton)radioGroup.getChildAt(0)).setChecked(true);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,19 +284,28 @@ public class MainActivity extends ActionBarActivity {
                 try {
 
                     int selectID = radioGroup.getCheckedRadioButtonId();
-
-                    if (selectID == 2) {
-
-                        Counter++;
-
-                    }
+                    View radioButton = radioGroup.findViewById(selectID);
+                    int idx = radioGroup.indexOfChild(radioButton);
 
 
-                    radioButton = (RadioButton) findViewById(selectID);
+
+
+
+
+//                    if (selectID == 2) {
+//
+//                        Counter++;
+//
+//
+//
+//                    }
+                    Toast.makeText(getApplicationContext(),String.valueOf(idx),Toast.LENGTH_SHORT).show();
+
+
 //                    textView.setText(String.valueOf(Counter));
 
 //                    textView.setText(radioButton.getText());
-                    Toast.makeText(MainActivity.this, String.valueOf(Counter), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, String.valueOf(Counter), Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
 
