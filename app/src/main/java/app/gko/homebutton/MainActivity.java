@@ -33,9 +33,12 @@ public class MainActivity extends ActionBarActivity {
     private String[] quetion;
 
     private static final String TAG = "json";
+    private static int ANSWER_STUDENT;
 
 
-    private int Counter = 0;
+
+
+    private int Counter = 0, AnswerCounter = 0;
 
 
 //    @Override
@@ -120,59 +123,68 @@ public class MainActivity extends ActionBarActivity {
 
         final SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
-        textView2.setText(String.valueOf(Counter));
+        textView2.setText(String.valueOf(AnswerCounter));
 
 
 
 
 
+//        ((RadioButton)radioGroup.getChildAt(3)).setChecked(true);
 
-        ((RadioButton)radioGroup.getChildAt(3)).setChecked(true);
+//       final int selectID = radioGroup.getCheckedRadioButtonId();
+//        View radioButton = radioGroup.findViewById(selectID);
+//       final int idx = radioGroup.indexOfChild(radioButton);
 
-       final int selectID = radioGroup.getCheckedRadioButtonId();
-        View radioButton = radioGroup.findViewById(selectID);
-       final int idx = radioGroup.indexOfChild(radioButton);
-
-        editor.putString("answer_" + Counter, String.valueOf(idx));
-        editor.commit();
+//        editor.putString("answer_" + Counter, String.valueOf(idx));
+//        editor.commit();
+        ((RadioButton)radioGroup.getChildAt(ANSWER_STUDENT)).setChecked(true);
 
 
-        for (Counter = 0; Counter <= 20; Counter++) {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                ANSWER_STUDENT = sp.getInt("answer_" + AnswerCounter, -1);
+
+                View radioButton = radioGroup.findViewById(checkedId);
+                final int idx = radioGroup.indexOfChild(radioButton);
+
+//                ((RadioButton)radioGroup.getChildAt(sp.getInt("answer_"+ AnswerCounter, -1))).setChecked(true);
+
+
+
+                editor.putInt("answer_" + AnswerCounter, idx);
+                editor.commit();
+
+                Toast.makeText(getApplicationContext(),String.valueOf(sp.getInt("answer_" + AnswerCounter, -1)), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    int[] allAnswer = new int[20];
+                    for (int i = 0; i < 20; i++) {
+
+                        allAnswer[i] = sp.getInt("answer_" + i, -1);
+
+                        Log.d(TAG, "allAnswer:" + i + "= " + String.valueOf(allAnswer[i]));
+                    }
+
 
                     try {
 
+//                        editor.putString("answer_" + Counter, String.valueOf(Counter));
+//                        editor.commit();
 
 
-
-
-
-
-                        editor.putString("answer_" + Counter, String.valueOf(Counter));
-                        editor.commit();
-
-
-
-
-//                    if (selectID == 2) {
+//                        Toast.makeText(getApplicationContext(), String.valueOf(Counter), Toast.LENGTH_SHORT).show();
 //
-//                        Counter++;
-//
-//
-//
-//                    }
-                        Toast.makeText(getApplicationContext(), sp.getString("answer_" + Counter, String.valueOf(-1)), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext(), String.valueOf(Counter), Toast.LENGTH_SHORT).show();
-
-
-//                    textView.setText(String.valueOf(Counter));
-
-//                    textView.setText(radioButton.getText());
-//                    Toast.makeText(MainActivity.this, String.valueOf(Counter), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), sp.getString("answer_" + Counter, String.valueOf(-1)), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), String.valueOf(Counter), Toast.LENGTH_SHORT).show();
 
                     } catch (Exception e) {
 
@@ -185,7 +197,7 @@ public class MainActivity extends ActionBarActivity {
             });
 
 
-        }
+
 
 
 
@@ -195,24 +207,26 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (Counter == 19) {
 
-                    Counter = 0;
-                    textView2.setText(String.valueOf(Counter));
-                    quetion[Counter] = String.valueOf(idx);
+                if (AnswerCounter < 19) {
 
-                    editor.putString("answer " + Counter, String.valueOf(idx));
-                    editor.commit();
 
-                } else {
-                    Counter++;
-                    textView2.setText(String.valueOf(Counter));
-                    quetion[Counter] = String.valueOf(idx);
-                    editor.putString("answer " + Counter, String.valueOf(idx));
-                    editor.commit();
+                    AnswerCounter++;
+
+                } else{
+
+                    AnswerCounter = 0;
 
                 }
+                textView2.setText(String.valueOf(AnswerCounter));
 
+                int answer = sp.getInt("answer_" + AnswerCounter, -1);
+
+                if (answer != -1) {
+
+                    ((RadioButton)radioGroup.getChildAt(answer)).setChecked(true);
+
+                }
 
 
             }
@@ -222,24 +236,23 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (Counter <= 0) {
 
-                    Counter = 19;
-                    textView2.setText(String.valueOf(Counter));
-                    quetion[Counter] = String.valueOf(idx);
-                    editor.putString("answer " + Counter, String.valueOf(idx));
-                    editor.commit();
+                if (AnswerCounter <= 0) {
 
-
+                    AnswerCounter = 19;
                 } else {
-                    Counter--;
-                    textView2.setText(String.valueOf(Counter));
-                    quetion[Counter] = String.valueOf(idx);
-                    editor.putString("answer " + Counter, String.valueOf(idx));
-                    editor.commit();
+                    AnswerCounter--;
 
                 }
+                textView2.setText(String.valueOf(AnswerCounter));
 
+                int answer = sp.getInt("answer_" + AnswerCounter, -1);
+
+                if (answer != -1) {
+
+                    ((RadioButton)radioGroup.getChildAt(answer)).setChecked(true);
+
+                }
             }
         });
 
