@@ -123,7 +123,11 @@ public class MainActivity extends ActionBarActivity {
 
         final SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
+
+        editor.clear();
         textView2.setText(String.valueOf(AnswerCounter));
+
+        radioGroup.clearCheck();
 
 
 
@@ -137,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
 
 //        editor.putString("answer_" + Counter, String.valueOf(idx));
 //        editor.commit();
-        ((RadioButton)radioGroup.getChildAt(ANSWER_STUDENT)).setChecked(true);
+//        ((RadioButton)radioGroup.getChildAt(ANSWER_STUDENT)).setChecked(true);
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -334,42 +338,42 @@ public class MainActivity extends ActionBarActivity {
             JSONObject questionAll = jsonResponse.getJSONObject("question_all");
             JSONArray questionArray = questionAll.getJSONArray("question");
             List<String[]> allNames = new ArrayList<>();
-//            JSONObject q = questionArray.getJSONObject(0);
+            JSONObject q = questionArray.getJSONObject(0);
 
 
-//            String[] question = {q.getString("q"),q.getString("a1"),q.getString("a2"),q.getString("a3"),q.getString("a4")};
+            String[] question = {q.getString("q"),q.getString("a1"),q.getString("a2"),q.getString("a3"),q.getString("a4")};
 
-//            textView.setText(question[0]);
-//            for(int i = 1; i <= 4; i++) {
-//                radioButton = new RadioButton(this);
-//                radioButton.setText(question[i]);
-//                radioGroup.addView(radioButton);
-//                radioGroup.getChildAt(i);
-//            }
-
-
-//            String[] arr = new String[questionArray.length()];
-//            for (int i = 0; i < questionArray.length(); i++) {
-//
-//                arr[i] = questionArray.getString(i);
-//                Log.d(TAG, "arr[ "+i+"]= " + arr[i]);
-//            }
-//
-//            allNames.add(arr);
+            textView.setText(question[0]);
+            for(int i = 1; i <= question.length - 1; i++) {
+                radioButton = new RadioButton(this);
+                radioButton.setText(question[i]);
+                radioGroup.addView(radioButton);
+                radioGroup.getChildAt(i);
+            }
 
 
+            String[] arr = new String[questionArray.length()];
             for (int i = 0; i < questionArray.length(); i++) {
 
-
-                JSONObject q = questionArray.getJSONObject(i);
-
-                String[] question = {q.getString("q"),q.getString("a1"),q.getString("a2"),q.getString("a3"),q.getString("a4")};
-                String answer = q.getString("q");  //  specific item
-                allNames.add(question);
-
-
-
+                arr[i] = questionArray.getString(i);
+                Log.d(TAG, "arr[ "+i+"]= " + arr[i]);
             }
+
+            allNames.add(arr);
+
+
+//            for (int i = 0; i < questionArray.length(); i++) {
+//
+//
+//                JSONObject q = questionArray.getJSONObject(i);
+//
+//                String[] question = {q.getString("q"),q.getString("a1"),q.getString("a2"),q.getString("a3"),q.getString("a4")};
+//                String answer = q.getString("q");  //  specific item
+//                allNames.add(question);
+//
+//
+//
+//            }
 
 //            Log.d(TAG, "question : " + allNames[0]);
 
